@@ -25,8 +25,9 @@ export async function GET() {
   XLSX.utils.book_append_sheet(wb, ws, "employees");
 
   const buf = XLSX.write(wb, { type: "buffer", bookType: "xlsx" }) as Buffer;
+  const body = new Uint8Array(buf);
 
-  return new NextResponse(buf, {
+  return new NextResponse(body, {
     status: 200,
     headers: {
       "Content-Type":

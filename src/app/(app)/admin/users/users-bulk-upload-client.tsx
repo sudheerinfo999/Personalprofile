@@ -3,10 +3,11 @@
 import * as React from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants, Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 type BulkResponse = {
   summary: { created: number; updated: number; errors: number; totalRows: number };
@@ -87,9 +88,12 @@ export default function UsersBulkUploadClient() {
           <div className="text-sm text-muted-foreground">
             Download the template, fill it, then upload the same format.
           </div>
-          <Button asChild variant="secondary">
-            <a href="/api/admin/users/template">Download Excel template</a>
-          </Button>
+          <a
+            className={cn(buttonVariants({ variant: "secondary" }))}
+            href="/api/admin/users/template"
+          >
+            Download Excel template
+          </a>
         </CardContent>
       </Card>
 
