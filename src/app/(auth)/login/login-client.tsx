@@ -79,7 +79,7 @@ export default function LoginClient() {
               <div className="min-w-0">
                 <CardTitle className="truncate">Portfolio Hub</CardTitle>
                 <CardDescription className="truncate">
-                  Sign in to access your portfol
+                  Sign in to access your portfolio hub
                 </CardDescription>
               </div>
             </div>
