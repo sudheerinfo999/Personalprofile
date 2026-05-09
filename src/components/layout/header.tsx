@@ -1,11 +1,8 @@
 "use client";
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
 import { LogOut, User } from "lucide-react";
-import { toast } from "sonner";
 
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { useSignOut } from "@/hooks/use-sign-out";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
@@ -30,22 +27,7 @@ function initials(name: string | null, email: string | null) {
 }
 
 export function Header({ user }: { user: AppShellUser }) {
-  const router = useRouter();
-  const [isSigningOut, setIsSigningOut] = React.useState(false);
-
-  async function signOut() {
-    setIsSigningOut(true);
-    try {
-      const supabase = createSupabaseBrowserClient();
-      await supabase.auth.signOut();
-      router.replace("/login");
-      router.refresh();
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed to sign out");
-    } finally {
-      setIsSigningOut(false);
-    }
-  }
+  const { signOut, isSigningOut } = useSignOut();
 
   return (
     <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -91,7 +73,7 @@ export function Header({ user }: { user: AppShellUser }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="gap-2"
-                onClick={signOut}
+                onClick={() => void signOut()}
                 disabled={isSigningOut}
               >
                 <LogOut className="h-4 w-4" />

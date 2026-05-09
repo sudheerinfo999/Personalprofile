@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Briefcase, LayoutGrid, Shield, Upload } from "lucide-react";
+import { Briefcase, LayoutGrid, LogOut, Shield, Upload } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+import { useSignOut } from "@/hooks/use-sign-out";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 
@@ -19,10 +21,11 @@ const adminItems = [
 
 export function Sidebar({ role }: { role: "admin" | "employee" }) {
   const pathname = usePathname();
+  const { signOut, isSigningOut } = useSignOut();
   const items = role === "admin" ? [...baseItems, ...adminItems] : baseItems;
 
   return (
-    <aside className="hidden md:flex md:flex-col border-r border-border/60 bg-muted/10">
+    <aside className="hidden md:flex md:flex-col md:min-h-screen border-r border-border/60 bg-muted/10">
       <div className="p-5">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-primary/10 ring-1 ring-border/60" />
@@ -58,8 +61,20 @@ export function Sidebar({ role }: { role: "admin" | "employee" }) {
           );
         })}
       </nav>
-      <div className="p-4 text-xs text-muted-foreground">
-        <span className="font-medium text-foreground">Role:</span> {role}
+      <div className="mt-auto flex flex-col gap-3 p-4 border-t border-border/60">
+        <div className="text-xs text-muted-foreground">
+          <span className="font-medium text-foreground">Role:</span> {role}
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full justify-start gap-2"
+          onClick={() => void signOut()}
+          disabled={isSigningOut}
+        >
+          <LogOut className="h-4 w-4 shrink-0" />
+          {isSigningOut ? "Signing out…" : "Sign out"}
+        </Button>
       </div>
     </aside>
   );
